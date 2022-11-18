@@ -1,21 +1,21 @@
-package ru.karpov.NewsPublicTest.controllers;
+package ru.karpov.NewsPublic.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import ru.karpov.NewsPublicTest.models.News;
-import ru.karpov.NewsPublicTest.repos.NewsRepo;
-import ru.karpov.NewsPublicTest.repos.SubscribeRepo;
-import ru.karpov.NewsPublicTest.repos.UserRepo;
+import ru.karpov.NewsPublic.models.News;
+import ru.karpov.NewsPublic.repos.userRepo;
+import ru.karpov.NewsPublic.repos.newsRepo;
+import ru.karpov.NewsPublic.repos.subscribeRepo;
 
 @Controller
 public class workController {
-    private UserRepo userRepo;
-    private NewsRepo newsRepo;
-    private SubscribeRepo subscribeRepol;
+    private userRepo userRepo;
+    private newsRepo newsRepo;
+    private subscribeRepo subscribeRepol;
 
     @Autowired
-    public WorkController(final UserRepo userRepo, final NewsRepo newsRepo, final SubscribeRepo subscribeRepo)
+    public workController(final userRepo userRepo, final newsRepo newsRepo, final subscribeRepo subscribeRepo)
     {
         this.newsRepo = newsRepo;
         this.userRepo = userRepo;

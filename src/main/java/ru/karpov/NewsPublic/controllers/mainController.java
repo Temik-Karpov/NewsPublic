@@ -1,4 +1,4 @@
-package ru.karpov.NewsPublicTest.controllers;
+package ru.karpov.NewsPublic.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
