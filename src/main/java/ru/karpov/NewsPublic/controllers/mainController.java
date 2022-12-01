@@ -20,13 +20,6 @@ public class mainController {
         return "addNewsPage";
     }
 
-    @PostMapping("/reloadPageNews")
-    public String reloadPage()
-    {
-        //Смена категории новостей и обновление списка новостей
-        return "mainPage";
-    }
-
     @GetMapping("/authProfilePage")
     public String getAuthProfilePage()
     {
@@ -42,7 +35,25 @@ public class mainController {
     @GetMapping("/registrationPage")
     public String getRegistrationPage()
     {
-        return "";
+        return "registrationPage";
+    }
+
+    @GetMapping("/lgoInPage")
+    public String getLogInPage()
+    {
+        return "logInPage";
+    }
+
+    @GetMapping("/profilePage")
+    public String getProfilePage()
+    {
+        return "profilePage";
+    }
+
+    @GetMapping("/newsPage")
+    public String getNewsPage()
+    {
+        return "newsPage";
     }
 
 
