@@ -4,18 +4,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "News")
 public class News {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column(name="name")
     private String name;
-    @Column(name="text")
     private String text;
-    @Column(name="date")
     private Date date;
-    @Column(name = "category")
     private Categories category;
 
     public Integer getId() {
