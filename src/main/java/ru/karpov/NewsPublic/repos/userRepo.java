@@ -6,6 +6,6 @@ import ru.karpov.NewsPublic.models.userInfo;
 
 @Repository
 public interface userRepo extends JpaRepository<userInfo, Long> {
-    userInfo findUserById(final int id);
+    userInfo findUserById(final String id);
     userInfo findUserByName(final String name);
 }
