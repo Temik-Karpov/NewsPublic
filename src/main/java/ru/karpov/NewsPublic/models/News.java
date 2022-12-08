@@ -11,6 +11,16 @@ public class News {
     private String name;
     private String text;
     private Date date;
+    private String authorName;
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(final String authorName) {
+        this.authorName = authorName;
+    }
+
     private Categories category;
 
     public Integer getId() {
@@ -49,7 +59,22 @@ public class News {
         return category;
     }
 
-    public void setCategory(final Categories category) {
-        this.category = category;
+    public void setCategory(final String category) {
+        switch(category)
+        {
+            case "Sport":
+                this.category = Categories.Sport;
+                break;
+            case "Economic":
+                this.category = Categories.Economic;
+                break;
+            case "Science":
+                this.category = Categories.Science;
+                break;
+            case "Politics":
+                this.category = Categories.Politics;
+                break;
+        }
+
     }
 }
