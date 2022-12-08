@@ -5,19 +5,18 @@ import javax.persistence.*;
 @Entity
 public class userInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String id;
 
     private String name;
     private Integer age;
     private String description;
     private float averageMark;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
