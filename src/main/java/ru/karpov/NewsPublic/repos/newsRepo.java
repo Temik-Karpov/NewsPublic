@@ -15,5 +15,7 @@ public interface newsRepo extends JpaRepository<News, Long> {
     List<News> findNewsByCategory(final Categories category);
     News findNewsById(final int id);
     Page<News> findAll(Pageable pageable);
+    List<News> findNewsByAuthorName(final String name);
+    List<News> findNewsByCategoryAndAndAuthorName(final Categories category, final String name);
 }
 
