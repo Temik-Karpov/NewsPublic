@@ -7,49 +7,44 @@
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
-<!— Если пользователь не зареган
-<div class ="container">
-    <h4 class="mb-3">Please, Log In</h4>
-    <form action="Log_In.php5">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">Log In</button>
-    </form>
-    -->
-    <h4 class="mb-3">Add your joke</h4>
-    <hr class="my-4">
-    <form class="needs-validation" action="/addNews" method="post">
-        <div class="col-sm-6">
-            <label class="form-label">Title</label>
-            <div class="input-group has-validation">
-                <input type="text" class="form-control" name="Title" placeholder="Title" value="">
-            </div>
+<h4 class="mb-3">Add your joke</h4>
+<hr class="my-4">
+<form class="needs-validation" action="/addNews" method="post">
+    <div class="col-sm-6">
+        <label class="form-label">Title</label>
+        <div class="input-group has-validation">
+            <input type="text" class="form-control" name="Title" placeholder="Title" value="">
         </div>
-        <br>
+    </div>
+    <br>
 
-        <div class="col-sm-6">
-            <label class="form-label">Text</label>
-            <div class="input-group has-validation">
-                <textarea class="form-control" name="text"></textarea>
-            </div>
+    <div class="col-sm-6">
+        <label class="form-label">Text</label>
+        <div class="input-group has-validation">
+            <textarea class="form-control" name="text"></textarea>
         </div>
-        <br>
+    </div>
+    <br>
 
-        <div class="col-sm-6">
-            <label class="form-label">Text</label>
-            <div class="input-group has-validation">
-                <select name="category" id="category" required>
-                    <option>Sport</option>
-                    <option>Culture</option>
-                    <option>Economic</option>
-                    <option>Politics</option>
-                    <option>Science</option>
-                </select>
-            </div>
+    <div class="col-sm-6">
+        <label class="form-label">Text</label>
+        <div class="input-group has-validation">
+            <select name="category" id="category" required>
+                <option>Sport</option>
+                <option>Culture</option>
+                <option>Economic</option>
+                <option>Politics</option>
+                <option>Science</option>
+            </select>
         </div>
-        <br>
-
-        <button class="w-100 btn btn-primary btn-lg" type="submit">Add news</button>
-    </form>
-    <hr class="my-4">
+    </div>
+    <br>
+    <div class="text-danger">
+        <p th:if="${nullError == 1}">Enter information</p>
+    </div>
+    <button class="w-100 btn btn-primary btn-lg" type="submit">Add news</button>
+</form>
+<hr class="my-4">
 </div>
 <div th:insert="blocks/footer :: footer"></div>
 </body>

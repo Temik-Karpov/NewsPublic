@@ -35,7 +35,7 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Show</button>
                             </div>
                             <small class="text-muted">
-                                <a href="" th:text="${publication.getAuthorName()}"></a>
+                                <a th:href="@{/profilePage/{username}(username = ${publication.getAuthorName()})}" th:text="${publication.getAuthorName()}"></a>
                                 <div th:text="${publication.getDate()}"></div>
                             </small>
                         </div>
