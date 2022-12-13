@@ -6,7 +6,6 @@ import javax.persistence.*;
 public class userInfo {
     @Id
     private String id;
-
     private String name;
     private Integer age;
     private String description;

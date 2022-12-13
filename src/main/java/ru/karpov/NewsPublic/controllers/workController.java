@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.karpov.NewsPublic.models.News;
+import ru.karpov.NewsPublic.models.userInfo;
 import ru.karpov.NewsPublic.repos.newsRepo;
 import ru.karpov.NewsPublic.repos.subscribeRepo;
 import ru.karpov.NewsPublic.repos.userRepo;
@@ -23,7 +24,7 @@ public class workController {
     private subscribeRepo subscribeRepol;
 
     @Autowired
-    public workController(final userRepo userRepo, final newsRepo newsRepo, final subscribeRepo subscribeRepo)
+    void WorkController(final userRepo userRepo, final newsRepo newsRepo, final subscribeRepo subscribeRepo)
     {
         this.newsRepo = newsRepo;
         this.userRepo = userRepo;
@@ -35,9 +36,13 @@ public class workController {
                           @RequestParam("category") String category,
                           Model model)
     {
+        if(text.isEmpty() || title.isEmpty())
+        {
+            model.addAttribute("nullError", 1);
+            return "addUserInfoPage";
+        }
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
-
         News news = new News();
         news.setName(title);
         news.setCategory(category);
@@ -75,11 +80,38 @@ public class workController {
         return "subscriptionsPage";
     }
 
-
     @PostMapping("/rateNews")
     public String rateNews(@ModelAttribute("news") News news, int id, Model model)
     {
         return "";
+    }
+
+    @PostMapping("/addUserInfo")
+    public String addUserInfo(@RequestParam("username") String username,
+                              @RequestParam("age") Integer age,
+                              @RequestParam("description") String description,
+                              Model model)
+    {
+
+        if(username.isEmpty() || description.isEmpty() || age == null)
+        {
+            model.addAttribute("nullError", 1);
+            return "addUserInfoPage";
+        }
+        if(age > 100 || age < 18) {
+            model.addAttribute("ageError", 1);
+            return "addUserInfoPage";
+        }
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String id = authentication.getName();
+        userInfo newUser = new userInfo();
+        newUser.setName(username);
+        newUser.setId(id);
+        newUser.setDescription(description);
+        newUser.setAge(age);
+        newUser.setAverageMark(0);
+        userRepo.save(newUser);
+        return "mainPage";
     }
 
 }
