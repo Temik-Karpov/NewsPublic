@@ -5,10 +5,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.karpov.NewsPublic.models.News;
+import ru.karpov.NewsPublic.models.Subscribe;
 import ru.karpov.NewsPublic.models.userInfo;
 import ru.karpov.NewsPublic.repos.newsRepo;
 import ru.karpov.NewsPublic.repos.subscribeRepo;
@@ -21,14 +20,14 @@ import java.util.Date;
 public class workController {
     private userRepo userRepo;
     private newsRepo newsRepo;
-    private subscribeRepo subscribeRepol;
+    private subscribeRepo subscribeRepo;
 
     @Autowired
     void WorkController(final userRepo userRepo, final newsRepo newsRepo, final subscribeRepo subscribeRepo)
     {
         this.newsRepo = newsRepo;
         this.userRepo = userRepo;
-        this.subscribeRepol = subscribeRepo;
+        this.subscribeRepo = subscribeRepo;
     }
 
     @PostMapping("/addNews")
@@ -39,7 +38,7 @@ public class workController {
         if(text.isEmpty() || title.isEmpty())
         {
             model.addAttribute("nullError", 1);
-            return "addUserInfoPage";
+            return "addNewsPage";
         }
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
@@ -50,67 +49,49 @@ public class workController {
         news.setDate(Date.from(Instant.now()));
         news.setAuthorName(userRepo.findUserById(id).getName());
         newsRepo.save(news);
+        model.addAttribute("publications", newsRepo.findAll());
         return "mainPage";
     }
 
-    @PostMapping("/deleteNews")
-    public String deleteNews(int id, Model model)
+    @GetMapping("/deleteNews/{id}")
+    public String deleteNews(@PathVariable("id") Integer id, Model model)
     {
         News news = newsRepo.findNewsById(id);
         newsRepo.delete(news);
+        model.addAttribute("publications", newsRepo.findAll());
+        model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
         return "mainPage";
     }
 
-    @PostMapping("/editNews")
-    public String editNews(@ModelAttribute("news") News news, Model model)
+    @GetMapping("/editNews/{id}")
+    public String editNews(@PathVariable("id") Integer id, Model model)
+    {
+        model.addAttribute("publication", newsRepo.findNewsById(id));
+        newsRepo.delete(newsRepo.findNewsById(id));
+        return "addNewsPage";
+    }
+
+    @GetMapping("/unsubscribeUser/{username}")
+    public String unsubscribeUser(@PathVariable("username") String username, Model model)
     {
         return "mainPage";
     }
 
-    @PostMapping("/subscribeUser")
-    public String subscribeUser(int id, Model model)
+    @PostMapping("/rateNews/{id}")
+    public String rateNews(@PathVariable("id") Integer id, @RequestParam("mark") Integer mark, Model model)
     {
-
-        return "subscriptionsPage";
+        userInfo user = userRepo.findUserByName(newsRepo.findNewsById(id).getAuthorName());
+        user.setCountOfMarks(user.getCountOfMarks() + 1);
+        user.setSummaryOfMarks(user.getSummaryOfMarks() + mark);
+        userRepo.save(user);
+        model.addAttribute("publications", newsRepo.findAll());
+        model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
+        return "mainPage";
     }
 
-    @PostMapping("/unsubscribeUser")
-    public String unsubscribeUser(int id, Model model)
+    @GetMapping("/subscribeUser/{username}")
+    public String subscribeUser(@PathVariable("username") String username, Model model)
     {
-        return "subscriptionsPage";
-    }
-
-    @PostMapping("/rateNews")
-    public String rateNews(@ModelAttribute("news") News news, int id, Model model)
-    {
-        return "";
-    }
-
-    @PostMapping("/addUserInfo")
-    public String addUserInfo(@RequestParam("username") String username,
-                              @RequestParam("age") Integer age,
-                              @RequestParam("description") String description,
-                              Model model)
-    {
-
-        if(username.isEmpty() || description.isEmpty() || age == null)
-        {
-            model.addAttribute("nullError", 1);
-            return "addUserInfoPage";
-        }
-        if(age > 100 || age < 18) {
-            model.addAttribute("ageError", 1);
-            return "addUserInfoPage";
-        }
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final String id = authentication.getName();
-        userInfo newUser = new userInfo();
-        newUser.setName(username);
-        newUser.setId(id);
-        newUser.setDescription(description);
-        newUser.setAge(age);
-        newUser.setAverageMark(0);
-        userRepo.save(newUser);
         return "mainPage";
     }
 

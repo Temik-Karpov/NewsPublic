@@ -9,7 +9,8 @@ public class userInfo {
     private String name;
     private Integer age;
     private String description;
-    private float averageMark;
+    private Integer countOfMarks;
+    private Integer summaryOfMarks;
 
     public String getId() {
         return id;
@@ -43,11 +44,25 @@ public class userInfo {
         this.description = description;
     }
 
-    public float getAverageMark() {
-        return averageMark;
+    public Integer getCountOfMarks() {
+        return countOfMarks;
     }
 
-    public void setAverageMark(final float averageMark) {
-        this.averageMark = averageMark;
+    public void setCountOfMarks(final Integer countOfMarks) {
+        this.countOfMarks = countOfMarks;
+    }
+
+    public Integer getSummaryOfMarks() {
+        return summaryOfMarks;
+    }
+
+    public void setSummaryOfMarks(final Integer summaryOfMarks) {
+        this.summaryOfMarks = summaryOfMarks;
+    }
+
+    public double getAverageMark()
+    {
+        return this.getCountOfMarks() == 0 ? 0 :
+                this.getSummaryOfMarks() / this.getCountOfMarks();
     }
 }
