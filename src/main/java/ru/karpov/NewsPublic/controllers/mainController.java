@@ -103,6 +103,15 @@ public class mainController {
 
     @GetMapping("/subscriptionsPage")
     public String getSubscriptionsPage(Model model) {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String id = authentication.getName();
+        final List<userInfo> subscribeUsers = new ArrayList<>();
+        for (Subscribe subscribe : subscribeRepo.findSubscribeByIdUser(id))
+        {
+            subscribeUsers.add(userRepo.findUserById(subscribe.getIdUserSubscribe()));
+        }
+        model.addAttribute("noSubscribes", subscribeUsers.size() == 0 ? 1:0);
+        model.addAttribute("subscribes", subscribeUsers);
         return "subscriptionsPage";
     }
 
