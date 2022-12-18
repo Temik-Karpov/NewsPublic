@@ -74,6 +74,12 @@ public class workController {
     @GetMapping("/unsubscribeUser/{username}")
     public String unsubscribeUser(@PathVariable("username") String username, Model model)
     {
+        userInfo user = userRepo.findUserByName(username);
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String id = authentication.getName();
+        subscribeRepo.delete(subscribeRepo.findSubscribeByIdUserSubscribeAndIdUser(user.getId(), id));
+        model.addAttribute("publications", newsRepo.findAll());
+        model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
         return "mainPage";
     }
 
@@ -92,6 +98,15 @@ public class workController {
     @GetMapping("/subscribeUser/{username}")
     public String subscribeUser(@PathVariable("username") String username, Model model)
     {
+        userInfo user = userRepo.findUserByName(username);
+        Subscribe subscribe = new Subscribe();
+        subscribe.setIdUserSubscribe(user.getId());
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String id = authentication.getName();
+        subscribe.setIdUser(id);
+        subscribeRepo.save(subscribe);
+        model.addAttribute("publications", newsRepo.findAll());
+        model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
         return "mainPage";
     }
 
