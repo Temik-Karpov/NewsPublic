@@ -1,37 +1,36 @@
 package ru.karpov.NewsPublic.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 public class Subscribe {
-    private Integer idUser;
-    private Integer idUserSubscribe;
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String idUser;
+    private String idUserSubscribe;
 
-    public Integer getIdUser() {
-        return idUser;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdUser(final Integer idUser) {
-        this.idUser = idUser;
-    }
-
-    public Integer getIdUserSubscribe() {
-        return idUserSubscribe;
-    }
-
-    public void setIdUserSubscribe(final Integer idUserSubscribe) {
-        this.idUserSubscribe = idUserSubscribe;
-    }
-
-    public void setId(final String id) {
+    public void setId(final Integer id) {
         this.id = id;
     }
 
-    @Id
-    public String getId() {
-        return id;
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(final String idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getIdUserSubscribe() {
+        return idUserSubscribe;
+    }
+
+    public void setIdUserSubscribe(final String idUserSubscribe) {
+        this.idUserSubscribe = idUserSubscribe;
     }
 }

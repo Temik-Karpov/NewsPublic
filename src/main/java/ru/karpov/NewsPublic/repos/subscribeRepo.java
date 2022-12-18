@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface subscribeRepo extends JpaRepository<Subscribe, Long> {
-    List<Subscribe> findSubscribeByIdUser(final int id);
+    List<Subscribe> findSubscribeByIdUser(final String id);
+    Subscribe findSubscribeByIdUserSubscribeAndIdUser(final String IdUserSubscribe, final String isUser);
 }
