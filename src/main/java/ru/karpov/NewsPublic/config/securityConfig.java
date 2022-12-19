@@ -40,7 +40,7 @@ class securityConfig extends KeycloakWebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/api/service/**", "/", "/addNewsPage").permitAll()
+                .antMatchers("/api/service/**", "/", "/reloadMain").permitAll()
                 .anyRequest().fullyAuthenticated();
     }
 }
