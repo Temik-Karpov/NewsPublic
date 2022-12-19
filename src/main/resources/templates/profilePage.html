@@ -14,9 +14,22 @@
         <p class="fs-5 text-muted">Describe:</p><p class="fs-5 text-muted" th:text="${description}"></p>
         <p class="fs-5 text-muted">Mark:</p><p class="fs-5 text-muted" th:text="${averageMark}"></p>
     </div>
+    <div th:if="${isSub == 0 || isSub == null}">
+        <form th:action="@{/subscribeUser/{username}(username=${name})}" method="get">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Subscribe</button>
+        </form>
+    </div>
+    <div th:if="${isSub == 1}">
+        <form th:action="@{/unsubscribeUser/{username}(username=${name})}" method="get">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Unsubscribe</button>
+        </form>
+    </div>
+
+
     <hr class="my-4">
     <form th:action="@{/reloadProfilePage/{name}(name=${name})}" method="post">
         <select name="category" id="category" required>
+            <option>All</option>
             <option>Sport</option>
             <option>Culture</option>
             <option>Economic</option>
@@ -34,7 +47,7 @@
                         <p class="card-text" th:text="${publication.getName()}"></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Show</button>
+                                <a th:href="@{/newsPage/{id}(id = ${publication.getId()})}">Show</a>
                             </div>
                             <small class="text-muted">
                                 <div th:text="${publication.getAuthorName()}"></div>
@@ -47,8 +60,6 @@
         </div>
     </div>
     <hr class="my-4">
-    <a href=""><button type="button" class="btn btn-sm btn-outline-secondary" align="center"></button></a>
 </div>
-<div th:insert="blocks/footer :: footer"></div>
 </body>
 </html>

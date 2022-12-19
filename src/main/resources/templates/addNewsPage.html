@@ -21,7 +21,12 @@
     <div class="col-sm-6">
         <label class="form-label">Text</label>
         <div class="input-group has-validation">
-            <textarea class="form-control" name="text"></textarea>
+            <div th:if="${publication != 0}">
+                <textarea class="form-control" name="text" th:text="${publication.getText()}"></textarea>
+            </div>
+            <div th:if="${publication == 0}">
+                <textarea class="form-control" name="text"></textarea>
+            </div>
         </div>
     </div>
     <br>
@@ -46,6 +51,5 @@
 </form>
 <hr class="my-4">
 </div>
-<div th:insert="blocks/footer :: footer"></div>
 </body>
 </html>
