@@ -15,6 +15,7 @@
     <hr class="my-4">
     <form action="/reloadMain" method="post">
         <select name="category" id="category" required>
+            <option>All</option>
             <option>Sport</option>
             <option>Culture</option>
             <option>Economic</option>
@@ -23,6 +24,7 @@
         </select>
         <button type="submit">Reload</button>
     </form>
+    <h3 th:if="${isPub == 1}" class="text-center">There is no news</h3>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div th:each="publication : ${publications}">
             <div class="col">
@@ -32,7 +34,7 @@
                         <p class="card-text" th:text="${publication.getName()}"></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Show</button>
+                                <a th:href="@{/newsPage/{id}(id = ${publication.getId()})}">Show</a>
                             </div>
                             <small class="text-muted">
                                 <a th:href="@{/profilePage/{username}(username = ${publication.getAuthorName()})}" th:text="${publication.getAuthorName()}"></a>
@@ -45,8 +47,6 @@
         </div>
     </div>
     <hr class="my-4">
-    <a href=""><button type="button" class="btn btn-sm btn-outline-secondary" align="center"></button></a>
 </div>
-<div th:insert="blocks/footer :: footer"></div>
 </body>
 </html>

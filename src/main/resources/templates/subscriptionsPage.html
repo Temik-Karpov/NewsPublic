@@ -12,9 +12,27 @@
         <h1 class="display-4 fw-normal">Subscriptions</h1>
     </div>
     <hr class="my-4">
+    <div th:if="${noSubscribes == 1}" class="text-center">
+        <h2 class="display-4 fw-normal">There is no subscriptions</h2>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div th:each="subscribe : ${subscribes}">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <a th:href="@{/profilePage/{username}(username = ${subscribe.getName()})}" class="card-text" th:text="${subscribe.getName()}"></a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                Age: <div class="white-space: nowrap" th:text="${subscribe.getAge()}"></div>
+                                Mark: <div class="white-space: nowrap" th:text="${subscribe.getAverageMark()}"></div>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <hr class="my-4">
-    <a href =""><button type="button" class="btn btn-sm btn-outline-secondary" align="center"></button></a>
 </div>
-<div th:insert="blocks/footer :: footer"></div>
 </body>
 </html>
