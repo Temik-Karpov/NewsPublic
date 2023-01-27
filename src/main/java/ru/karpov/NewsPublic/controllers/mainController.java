@@ -67,6 +67,11 @@ public class mainController {
                 model.addAttribute("isPub", newsRepo.findNewsByCategory(Categories.Politics).size() == 0 ?
                         1 : 0);
                 break;
+            case "Culture":
+                model.addAttribute("publications", newsRepo.findNewsByCategory(Categories.Culture));
+                model.addAttribute("isPub", newsRepo.findNewsByCategory(Categories.Culture).size() == 0 ?
+                        1 : 0);
+                break;
         }
         return "mainPage";
     }
@@ -198,6 +203,12 @@ public class mainController {
                 model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
                         (Categories.Politics, authUser.getName()).size() == 0 ? 1 : 0);
                 break;
+            case "Culture":
+                model.addAttribute("publications",
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture, authUser.getName()));
+                model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
+                        (Categories.Culture, authUser.getName()).size() == 0 ? 1 : 0);
+                break;
         }
         return "authProfilePage";
     }
@@ -228,6 +239,10 @@ public class mainController {
                 model.addAttribute("publications",
                         newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Politics, username));
                 ;
+                break;
+            case "Culture":
+                model.addAttribute("publications",
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture, username));;
                 break;
         }
         return "profilePage";
