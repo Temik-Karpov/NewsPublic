@@ -27,22 +27,33 @@ public class mainController {
     private subscribeRepo subscribeRepo;
 
     @Autowired
-    void MainController(userRepo userRepo, newsRepo newsRepo, subscribeRepo subscribeRepo) {
+    public mainController(userRepo userRepo, newsRepo newsRepo, subscribeRepo subscribeRepo)
+    {
         this.newsRepo = newsRepo;
         this.userRepo = userRepo;
         this.subscribeRepo = subscribeRepo;
     }
 
+    private boolean isAuth()
+    {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        return SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
+    }
+
     @GetMapping("/")
-    public String getMainPage(Model model) {
+    public String getMainPage(Model model)
+    {
         model.addAttribute("publications", newsRepo.findAll());
         model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "mainPage";
     }
 
     @PostMapping("/reloadMain")
-    public String reloadMainPage(@RequestParam("category") String category, Model model) {
-        switch (category) {
+    public String reloadMainPage(@RequestParam("category") String category, Model model)
+    {
+        switch(category)
+        {
             case "All":
                 model.addAttribute("publications", newsRepo.findAll());
                 model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
@@ -73,21 +84,27 @@ public class mainController {
                         1 : 0);
                 break;
         }
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "mainPage";
     }
 
     @GetMapping("/addNewsPage")
-    public String getAddNewsPage(Model model) {
+    public String getAddNewsPage(Model model)
+    {
         model.addAttribute("publication", 0);
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "addNewsPage";
     }
 
     @GetMapping("/authProfilePage")
-    public String getAuthProfilePage(Model model) {
+    public String getAuthProfilePage(Model model)
+    {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
         final userInfo authUser = userRepo.findUserById(id);
-        if (authUser != null) {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
+        if(authUser != null)
+        {
             model.addAttribute("name", authUser.getName());
             model.addAttribute("age", authUser.getAge());
             model.addAttribute("description", authUser.getDescription());
@@ -102,12 +119,14 @@ public class mainController {
     }
 
     @GetMapping("/addUserInfoPage")
-    public String getAddUserInfoPage() {
+    public String getAddUserInfoPage()
+    {
         return "addUserInfoPage";
     }
 
     @GetMapping("/subscriptionsPage")
-    public String getSubscriptionsPage(Model model) {
+    public String getSubscriptionsPage(Model model)
+    {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
         final List<userInfo> subscribeUsers = new ArrayList<>();
@@ -117,11 +136,13 @@ public class mainController {
         }
         model.addAttribute("noSubscribes", subscribeUsers.size() == 0 ? 1:0);
         model.addAttribute("subscribes", subscribeUsers);
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "subscriptionsPage";
     }
 
     @GetMapping("/profilePage/{username}")
-    public String getProfilePage(@PathVariable("username") String username, Model model) {
+    public String getProfilePage(@PathVariable("username") String username, Model model)
+    {
         userInfo user = userRepo.findUserByName(username);
         model.addAttribute("name", user.getName());
         model.addAttribute("age", user.getAge());
@@ -131,12 +152,17 @@ public class mainController {
         model.addAttribute("publications", newsRepo.findNewsByAuthorName(user.getName()));
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
-        if (id.equals(user.getId())) {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
+        if(id.equals(user.getId()))
+        {
             return "authProfilePage";
         }
-        if (subscribeRepo.findSubscribeByIdUserSubscribeAndIdUser(user.getId(), id) != null) {
+        if(subscribeRepo.findSubscribeByIdUserSubscribeAndIdUser(user.getId(), id) != null)
+        {
             model.addAttribute("isSub", 1);
-        } else {
+        }
+        else
+        {
             model.addAttribute("isSub", 0);
         }
         return "profilePage";
@@ -144,13 +170,18 @@ public class mainController {
 
     @GetMapping("/newsPage/{id}")
     public String getNewsPage(@PathVariable("id") Integer id,
-                              Model model) {
+                              Model model)
+    {
         model.addAttribute("news", newsRepo.findNewsById(id));
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String idAuth = authentication.getName();
-        if (userRepo.findUserByName(newsRepo.findNewsById(id).getAuthorName()).getId().equals(idAuth)) {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
+        if(userRepo.findUserByName(newsRepo.findNewsById(id).getAuthorName()).getId().equals(idAuth))
+        {
             model.addAttribute("edit", 1);
-        } else {
+        }
+        else
+        {
             model.addAttribute("edit", 0);
         }
         return "newsPage";
@@ -165,7 +196,8 @@ public class mainController {
     }
 
     @PostMapping("/reloadAuthProfilePage")
-    public String reloadAuthProfilePage(@RequestParam("category") String category, Model model) {
+    public String reloadAuthProfilePage(@RequestParam("category") String category, Model model)
+    {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
         final userInfo authUser = userRepo.findUserById(id);
@@ -174,7 +206,8 @@ public class mainController {
         model.addAttribute("description", authUser.getDescription());
         model.addAttribute("averageMark", authUser.getCountOfMarks() == 0 ? 0 :
                 authUser.getSummaryOfMarks() / authUser.getCountOfMarks());
-        switch (category) {
+        switch(category)
+        {
             case "All":
                 model.addAttribute("publications", newsRepo.findNewsByAuthorName(authUser.getName()));
                 model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
@@ -205,19 +238,22 @@ public class mainController {
                 break;
             case "Culture":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture, authUser.getName()));
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture,
+                                authUser.getName()));
                 model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
                         (Categories.Culture, authUser.getName()).size() == 0 ? 1 : 0);
                 break;
         }
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "authProfilePage";
     }
-
     @PostMapping("/reloadProfilePage/{name}")
     public String reloadProfilePage(@PathVariable("name") String username,
-                                    @RequestParam("category") String category,
-                                    Model model) {
-        switch (category) {
+@RequestParam("category") String category,
+                                    Model model)
+    {
+        switch(category)
+        {
             case "All":
                 model.addAttribute("publications", newsRepo.findNewsByAuthorName(username));
                 break;
@@ -227,24 +263,23 @@ public class mainController {
                 break;
             case "Economic":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Economic, username));
-                ;
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Economic, username));;
                 break;
             case "Science":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Science, username));
-                ;
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Science, username));;
                 break;
             case "Politics":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Politics, username));
-                ;
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Politics, username));;
                 break;
             case "Culture":
                 model.addAttribute("publications",
                         newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture, username));;
                 break;
         }
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "profilePage";
     }
+
 }
