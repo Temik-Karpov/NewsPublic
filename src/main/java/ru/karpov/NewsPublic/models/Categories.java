@@ -4,5 +4,6 @@ public enum Categories {
     Economic,
     Politics,
     Science,
-    Sport
+    Sport,
+    Culture
 }
