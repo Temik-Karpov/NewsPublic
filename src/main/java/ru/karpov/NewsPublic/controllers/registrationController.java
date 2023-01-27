@@ -27,6 +27,12 @@ public class registrationController {
         this.newsRepo = newsRepo;
     }
 
+    private boolean isAuth()
+    {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        return SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
+    }
+
     @PostMapping("/addUserInfo")
     public String addUserInfo(@RequestParam("username") String username,
                               @RequestParam("age") Integer age,
@@ -36,6 +42,7 @@ public class registrationController {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
         List<News> news = new ArrayList<>();
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         if(userRepo.findUserById(id) != null)
         {
             news = newsRepo.findNewsByAuthorName(userRepo.findUserById(id).getName());

@@ -30,11 +30,18 @@ public class workController {
         this.subscribeRepo = subscribeRepo;
     }
 
+    private boolean isAuth()
+    {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        return SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
+    }
+
     @PostMapping("/addNews")
     public String addNews(@RequestParam("Title") String title, @RequestParam("text") String text,
                           @RequestParam("category") String category,
                           Model model)
     {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         if(text.isEmpty() || title.isEmpty())
         {
             model.addAttribute("nullError", 1);
@@ -56,6 +63,7 @@ public class workController {
     @GetMapping("/deleteNews/{id}")
     public String deleteNews(@PathVariable("id") Integer id, Model model)
     {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         News news = newsRepo.findNewsById(id);
         newsRepo.delete(news);
         model.addAttribute("publications", newsRepo.findAll());
@@ -66,6 +74,7 @@ public class workController {
     @GetMapping("/editNews/{id}")
     public String editNews(@PathVariable("id") Integer id, Model model)
     {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         model.addAttribute("publication", newsRepo.findNewsById(id));
         newsRepo.delete(newsRepo.findNewsById(id));
         return "addNewsPage";
@@ -74,6 +83,7 @@ public class workController {
     @GetMapping("/unsubscribeUser/{username}")
     public String unsubscribeUser(@PathVariable("username") String username, Model model)
     {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         userInfo user = userRepo.findUserByName(username);
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String id = authentication.getName();
@@ -86,6 +96,7 @@ public class workController {
     @PostMapping("/rateNews/{id}")
     public String rateNews(@PathVariable("id") Integer id, @RequestParam("mark") Integer mark, Model model)
     {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         userInfo user = userRepo.findUserByName(newsRepo.findNewsById(id).getAuthorName());
         user.setCountOfMarks(user.getCountOfMarks() + 1);
         user.setSummaryOfMarks(user.getSummaryOfMarks() + mark);
@@ -98,6 +109,7 @@ public class workController {
     @GetMapping("/subscribeUser/{username}")
     public String subscribeUser(@PathVariable("username") String username, Model model)
     {
+        model.addAttribute("isAuth", isAuth() ? 0 : 1);
         userInfo user = userRepo.findUserByName(username);
         Subscribe subscribe = new Subscribe();
         subscribe.setIdUserSubscribe(user.getId());
