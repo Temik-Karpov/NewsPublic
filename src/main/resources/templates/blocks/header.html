@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,8 +15,9 @@
                 <a class="me-3 py-2 text-dark text-decoration-none" href="/">Main</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="/addNewsPage">Add</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="/subscriptionsPage">Subscriptions</a>
-                <a class="me-3 py-2 text-dark text-decoration-none" href="/authProfilePage">Profile</a>
-                <a class="me-3 py-2 text-dark text-decoration-none" href="/logout">Logout</a>
+                <a th:if="${isAuth == 1}" class="me-3 py-2 text-dark text-decoration-none" href="/authProfilePage">Profile</a>
+                <a th:if="${isAuth == 1}" class="me-3 py-2 text-dark text-decoration-none" href="/logout">Logout</a>
+                <a th:if="${isAuth != 1}" class="me-3 py-2 text-dark text-decoration-none" href="/authProfilePage">LogIn</a>
             </nav>
         </div>
     </header>

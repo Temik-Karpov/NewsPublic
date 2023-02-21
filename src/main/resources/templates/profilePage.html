@@ -8,11 +8,15 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 <div class="container">
-    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal" th:text="${name}"></h1>
-        <p class="fs-5 text-muted">Age:</p><p class="fs-5 text-muted" th:text="${age}"></p>
-        <p class="fs-5 text-muted">Describe:</p><p class="fs-5 text-muted" th:text="${description}"></p>
-        <p class="fs-5 text-muted">Mark:</p><p class="fs-5 text-muted" th:text="${averageMark}"></p>
+    <div class="pricing-header p-3 pb-md-4 mx-auto">
+        <h1 class="display-4 fw-normal text-center" th:text="${name}" ></h1>
+        <p class="fs-5 text-muted text-center" th:text="${description}"></p>
+        <img style="margin-left: 250px; border-radius: 30px; margin-bottom: 20px;" width="250" height="250"
+             align="left" th:src="@{${image}}">
+        <label class="fs-5 text-muted text-center" style="margin-left: 100px; margin-top: 50px">Age:</label>
+        <label class="fs-5 text-muted text-center" style="margin-left: 5px" th:text="${age}"></label><br>
+        <label class="fs-5 text-muted text-center" style="margin-left: 100px">Mark:</label>
+        <label class="fs-5 text-muted text-center" th:text="${averageMark}"></label>
     </div>
     <div th:if="${isSub == 0 || isSub == null}">
         <form th:action="@{/subscribeUser/{username}(username=${name})}" method="get">
@@ -25,19 +29,19 @@
         </form>
     </div>
 
-
     <hr class="my-4">
     <form th:action="@{/reloadProfilePage/{name}(name=${name})}" method="post">
         <select name="category" id="category" required>
             <option>All</option>
             <option>Sport</option>
+            <option>Culture</option>
             <option>Economic</option>
             <option>Politics</option>
             <option>Science</option>
-            <option>Culture</option>
         </select>
         <button type="submit">Reload</button>
     </form>
+    <h3 th:if="${isPub == 1}" class="text-center">There is no news</h3>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div th:each="publication : ${publications}">
             <div class="col">

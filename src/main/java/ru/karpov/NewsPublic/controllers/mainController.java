@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.karpov.NewsPublic.models.Categories;
 import ru.karpov.NewsPublic.models.Subscribe;
 import ru.karpov.NewsPublic.models.userInfo;
+import ru.karpov.NewsPublic.repos.markRepo;
 import ru.karpov.NewsPublic.repos.newsRepo;
 import ru.karpov.NewsPublic.repos.subscribeRepo;
 import ru.karpov.NewsPublic.repos.userRepo;
@@ -25,18 +26,19 @@ public class mainController {
     private userRepo userRepo;
     private newsRepo newsRepo;
     private subscribeRepo subscribeRepo;
+    private markRepo markRepo;
 
     @Autowired
-    public mainController(userRepo userRepo, newsRepo newsRepo, subscribeRepo subscribeRepo)
+    public void MainController(userRepo userRepo, newsRepo newsRepo, subscribeRepo subscribeRepo, markRepo markRepo)
     {
         this.newsRepo = newsRepo;
         this.userRepo = userRepo;
         this.subscribeRepo = subscribeRepo;
+        this.markRepo = markRepo;
     }
 
     private boolean isAuth()
     {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
     }
 
@@ -113,6 +115,7 @@ public class mainController {
             model.addAttribute("publications", newsRepo.findNewsByAuthorName(authUser.getName()));
             model.addAttribute("isPub", newsRepo.findNewsByAuthorName(authUser.getName()).size() == 0 ?
                     1 : 0);
+            model.addAttribute("image", authUser.getImageUrl());
             return "authProfilePage";
         }
         return "addUserInfoPage";
@@ -144,6 +147,7 @@ public class mainController {
     public String getProfilePage(@PathVariable("username") String username, Model model)
     {
         userInfo user = userRepo.findUserByName(username);
+        model.addAttribute("image", user.getImageUrl());
         model.addAttribute("name", user.getName());
         model.addAttribute("age", user.getAge());
         model.addAttribute("description", user.getDescription());
@@ -184,15 +188,20 @@ public class mainController {
         {
             model.addAttribute("edit", 0);
         }
+        if (markRepo.findAllByIdUserAndIdNews(idAuth, id) != null) {
+            model.addAttribute("rate", 1);
+        } else {
+            model.addAttribute("rate", 0);
+        }
         return "newsPage";
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, Model model) throws ServletException {
+    public void logout(HttpServletRequest request, Model model) throws ServletException {
         request.logout();
         model.addAttribute("publications", newsRepo.findAll());
         model.addAttribute("isPub", newsRepo.findAll() == null ? 1 : 0);
-        return "mainPage";
+        getAuthProfilePage(model);
     }
 
     @PostMapping("/reloadAuthProfilePage")
@@ -206,6 +215,7 @@ public class mainController {
         model.addAttribute("description", authUser.getDescription());
         model.addAttribute("averageMark", authUser.getCountOfMarks() == 0 ? 0 :
                 authUser.getSummaryOfMarks() / authUser.getCountOfMarks());
+        model.addAttribute("image", authUser.getImageUrl());
         switch(category)
         {
             case "All":
@@ -238,8 +248,7 @@ public class mainController {
                 break;
             case "Culture":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture,
-                                authUser.getName()));
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture, authUser.getName()));
                 model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
                         (Categories.Culture, authUser.getName()).size() == 0 ? 1 : 0);
                 break;
@@ -247,35 +256,54 @@ public class mainController {
         model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "authProfilePage";
     }
+
     @PostMapping("/reloadProfilePage/{name}")
     public String reloadProfilePage(@PathVariable("name") String username,
-@RequestParam("category") String category,
+                                    @RequestParam("category") String category,
                                     Model model)
     {
+        userInfo user = userRepo.findUserByName(username);
+        model.addAttribute("image", user.getImageUrl());
+        model.addAttribute("name", user.getName());
+        model.addAttribute("age", user.getAge());
+        model.addAttribute("description", user.getDescription());
+        model.addAttribute("averageMark", user.getCountOfMarks() == 0 ? 0 :
+                user.getSummaryOfMarks() / user.getCountOfMarks());
         switch(category)
         {
             case "All":
                 model.addAttribute("publications", newsRepo.findNewsByAuthorName(username));
+                model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
                 break;
             case "Sport":
                 model.addAttribute("publications",
                         newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Sport, username));
+                model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
+                        (Categories.Sport, user.getName()).size() == 0 ? 1 : 0);
                 break;
             case "Economic":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Economic, username));;
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Economic, username));
+                model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
+                        (Categories.Economic, user.getName()).size() == 0 ? 1 : 0);
                 break;
             case "Science":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Science, username));;
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Science, username));
+                model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
+                        (Categories.Science, user.getName()).size() == 0 ? 1 : 0);
                 break;
             case "Politics":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Politics, username));;
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Politics, username));
+                model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
+                        (Categories.Politics, user.getName()).size() == 0 ? 1 : 0);
                 break;
             case "Culture":
                 model.addAttribute("publications",
-                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture, username));;
+                        newsRepo.findNewsByCategoryAndAndAuthorName(Categories.Culture, username));
+                model.addAttribute("isPub", newsRepo.findNewsByCategoryAndAndAuthorName
+                        (Categories.Culture, user.getName()).size() == 0 ? 1 : 0);
                 break;
         }
         model.addAttribute("isAuth", isAuth() ? 0 : 1);

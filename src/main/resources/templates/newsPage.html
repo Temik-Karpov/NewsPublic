@@ -10,7 +10,9 @@
 <div class ="container">
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h1 class="display-4 fw-normal" th:text="${news.getName()}"></h1>
+        <img style="border-radius: 30px; text-align: center" th:src="@{${news.getImageUrl()}}">
     </div>
+
     <hr class="my-4">
     <div>
         <div class="bd-example text-center">
@@ -25,16 +27,18 @@
                 <a th:href="@{/deleteNews/{id}(id=${news.getId()})}">Delete publication</a><br>
             </div>
             <div th:if="${edit == 0}">
-                <form th:action="@{/rateNews/{id}(id=${news.getId()})}" method="post">
-                    <select name="mark" id="mark" required>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                    <button type="submit">Rate</button>
-                </form>
+                <div th:if="${rate == 0}">
+                    <form th:action="@{/rateNews/{id}(id=${news.getId()})}" method="post">
+                        <select name="mark" id="mark" required>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                        <button type="submit">Rate</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

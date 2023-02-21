@@ -11,6 +11,15 @@ public class userInfo {
     private String description;
     private Integer countOfMarks;
     private Integer summaryOfMarks;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getId() {
         return id;

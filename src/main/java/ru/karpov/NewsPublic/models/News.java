@@ -12,6 +12,15 @@ public class News {
     private String text;
     private Date date;
     private String authorName;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getAuthorName() {
         return authorName;
