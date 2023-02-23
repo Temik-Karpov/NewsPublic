@@ -53,7 +53,7 @@ public class registrationController {
             news = newsRepo.findNewsByAuthorName(userRepo.findUserById(id).getName());
             userRepo.delete(userRepo.findUserById(id));
         }
-        if(username.isEmpty() || description.isEmpty() || age == null)
+        if(username.isEmpty() || description.isEmpty() || age == 0 || file.getBytes().length < 1)
         {
             model.addAttribute("nullError", 1);
             return "addUserInfoPage";

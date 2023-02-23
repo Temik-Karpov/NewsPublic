@@ -197,11 +197,11 @@ public class mainController {
     }
 
     @GetMapping("/logout")
-    public void logout(HttpServletRequest request, Model model) throws ServletException {
+    public String logout(HttpServletRequest request, Model model) throws ServletException {
         request.logout();
         model.addAttribute("publications", newsRepo.findAll());
         model.addAttribute("isPub", newsRepo.findAll() == null ? 1 : 0);
-        getAuthProfilePage(model);
+        return "mainPage";
     }
 
     @PostMapping("/reloadAuthProfilePage")

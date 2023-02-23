@@ -54,6 +54,7 @@ public class workController {
         if(text.isEmpty() || title.isEmpty())
         {
             model.addAttribute("nullError", 1);
+            model.addAttribute("publication", 0);
             return "addNewsPage";
         }
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,12 +66,14 @@ public class workController {
         news.setDate(Date.from(Instant.now()));
         news.setAuthorName(userRepo.findUserById(id).getName());
 
-        StringBuilder fileNames = new StringBuilder();
-        Path fileNameAndPath = Paths.get("D:/temik/Work/Data/NewsPublic/NewsPublic/src/main/resources/static/images",
-                file.getOriginalFilename());
-        fileNames.append(file.getOriginalFilename());
-        Files.write(fileNameAndPath, file.getBytes());
-        news.setImageUrl("/images/" + file.getOriginalFilename());
+        if(file.getBytes().length > 0) {
+            StringBuilder fileNames = new StringBuilder();
+            Path fileNameAndPath = Paths.get("D:/temik/Work/Data/NewsPublic/NewsPublic/src/main/resources/static/images",
+                    file.getOriginalFilename());
+            fileNames.append(file.getOriginalFilename());
+            Files.write(fileNameAndPath, file.getBytes());
+            news.setImageUrl("/images/" + file.getOriginalFilename());
+        }
 
 
         newsRepo.save(news);
