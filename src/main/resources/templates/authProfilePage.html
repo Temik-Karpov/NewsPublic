@@ -41,11 +41,11 @@
         <button type="submit">Reload</button>
     </form>
     <h3 th:if="${isPub == 1}" class="text-center">There is no news</h3>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" style="margin-top: 10px">
         <div th:each="publication : ${publications}">
             <div class="col">
                 <div class="card shadow-sm">
-                    <svg width="100" height="150"><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
+                    <label th:text="${publication.getText().substring(0, (publication.getText().length < 100 ? publication.getText().length : 100)) + '...'}" style="background: darkgrey"></label>
                     <div class="card-body">
                         <p class="card-text" th:text="${publication.getName()}"></p>
                         <div class="d-flex justify-content-between align-items-center">

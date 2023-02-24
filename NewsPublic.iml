@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="web" name="Web">
+      <configuration>
+        <webroots />
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/main/java" />
+          <root url="file://$MODULE_DIR$/src/main/resources" />
+        </sourceRoots>
+      </configuration>
+    </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping />
+        <naming-strategy-map />
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -28,8 +50,6 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.7.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.3" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.3" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.3" level="project" />
@@ -40,7 +60,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.22" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.22" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.22" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.22" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.22" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.7.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:2.7.3" level="project" />
@@ -94,7 +113,7 @@
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:jaxb-runtime:2.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:txw2:2.3.6" level="project" />
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.12" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:2.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.22" level="project" />
@@ -103,5 +122,35 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.postgresql:postgresql:42.3.6" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.5.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.h2database:h2:2.1.214" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-adapter-core:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-crypto-default:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-core:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-common:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-server-spi:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-server-spi-private:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.github.ua-parser:uap-java:1.5.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.70" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.70" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcutil-jdk15on:1.70" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.22" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-spring-boot-starter:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-spring-boot-2-adapter:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-spring-boot-adapter-core:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-authz-client:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.5.13" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.15" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.15" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:spring-boot-container-bundle:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-spring-security-adapter:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.keycloak:keycloak-adapter-spi:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.3" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.3" level="project" />
   </component>
 </module>

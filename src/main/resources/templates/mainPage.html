@@ -29,7 +29,7 @@
         <div th:each="publication : ${publications}">
             <div class="col">
                 <div class="card shadow-sm">
-                    <label th:text="${publication.getText().substring(0, 100) + '...'}" style="background: darkgrey"></label>
+                    <label th:text="${publication.getText().substring(0, (publication.getText().length < 100 ? publication.getText().length : 100)) + '...'}" style="background: darkgrey"></label>
                     <div class="card-body">
                         <h5 class="card-text" th:text="${publication.getName()}"></h5>
                         <div class="d-flex justify-content-between align-items-center">
