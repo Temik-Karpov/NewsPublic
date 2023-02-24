@@ -20,7 +20,7 @@
         <div th:each="subscribe : ${subscribes}">
             <div class="col" >
                 <div style="text-align: center;">
-                        <img style="border-radius: 30px; margin-top: 10px; margin-left: 25px" width="150" height="150" th:src="@{${subscribe.getImageUrl()}}"><br>
+                        <img style="border-radius: 30px; margin-top: 10px; margin-left: 20px" width="150" height="150" th:src="@{${subscribe.getImageUrl()}}"><br>
                         <a th:href="@{/profilePage/{username}(username = ${subscribe.getName()})}" th:text="${subscribe.getName()}"></a>
                             <small class="text-muted">
                                 <div th:text="${subscribe.getDescription()}"></div>

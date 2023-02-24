@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.karpov.NewsPublic.models.Categories;
+import ru.karpov.NewsPublic.models.News;
 import ru.karpov.NewsPublic.models.Subscribe;
 import ru.karpov.NewsPublic.models.userInfo;
 import ru.karpov.NewsPublic.repos.markRepo;
@@ -18,6 +19,7 @@ import ru.karpov.NewsPublic.repos.userRepo;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -45,7 +47,10 @@ public class mainController {
     @GetMapping("/")
     public String getMainPage(Model model)
     {
-        model.addAttribute("publications", newsRepo.findAll());
+        List<News> news = new ArrayList<>();
+        news = newsRepo.findAll();
+        Collections.reverse(news);
+        model.addAttribute("publications", news);
         model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
         model.addAttribute("isAuth", isAuth() ? 0 : 1);
         return "mainPage";
@@ -57,7 +62,10 @@ public class mainController {
         switch(category)
         {
             case "All":
-                model.addAttribute("publications", newsRepo.findAll());
+                List<News> news = new ArrayList<>();
+                news = newsRepo.findAll();
+                Collections.reverse(news);
+                model.addAttribute("publications", news);
                 model.addAttribute("isPub", newsRepo.findAll().size() == 0 ? 1 : 0);
                 break;
             case "Sport":
@@ -93,9 +101,16 @@ public class mainController {
     @GetMapping("/addNewsPage")
     public String getAddNewsPage(Model model)
     {
-        model.addAttribute("publication", 0);
-        model.addAttribute("isAuth", isAuth() ? 0 : 1);
-        return "addNewsPage";
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String id = authentication.getName();
+        final userInfo authUser = userRepo.findUserById(id);
+        if(authUser != null)
+        {
+            model.addAttribute("publication", 0);
+            model.addAttribute("isAuth", isAuth() ? 0 : 1);
+            return "addNewsPage";
+        }
+        return "addUserInfoPage";
     }
 
     @GetMapping("/authProfilePage")

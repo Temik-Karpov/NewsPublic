@@ -74,6 +74,9 @@ public class News {
             case "Sport":
                 this.category = Categories.Sport;
                 break;
+            case "Culture":
+                this.category = Categories.Culture;
+                break;
             case "Economic":
                 this.category = Categories.Economic;
                 break;
