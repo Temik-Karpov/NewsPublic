@@ -142,6 +142,13 @@ public class mainController {
         return "addUserInfoPage";
     }
 
+    @GetMapping("/userListPage")
+    public String getUsersListPage(final Model model)
+    {
+        model.addAttribute("users", userRepo.findAll());
+        return "userListPage";
+    }
+
     @GetMapping("/subscriptionsPage")
     public String getSubscriptionsPage(Model model)
     {
@@ -214,7 +221,10 @@ public class mainController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, Model model) throws ServletException {
         request.logout();
-        model.addAttribute("publications", newsRepo.findAll());
+        List<News> pub;
+        pub = newsRepo.findAll();
+        Collections.reverse(pub);
+        model.addAttribute("publications", pub);
         model.addAttribute("isPub", newsRepo.findAll() == null ? 1 : 0);
         return "mainPage";
     }
